@@ -1,0 +1,24 @@
+on:
+  issue_comment:
+    types: [created, deleted]
+
+jobs:
+  pr_commented:
+    name: PR comment
+    if: ${{ github.event.issue.pull_request }}
+    runs-on: ubuntu-latest
+    steps:
+      - run: |
+          echo "Comment on PR #${{ github.event.issue.number }}"
+          echo "User ${{ github.event.comment.user.login }}"
+          echo "Message ${{ github.event.comment.body }}"
+
+  issue_commented:
+    name: Issue comment
+    if: ${{ !github.event.issue.pull_request }}
+    runs-on: ubuntu-latest
+    steps:
+      - run: |
+          echo "Comment on issue #${{ github.event.issue.number }}"
+          echo "User ${{ github.event.comment.user.login }}"
+          echo "Message ${{ github.event.comment.body }}"
